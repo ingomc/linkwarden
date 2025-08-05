@@ -24,6 +24,32 @@ const handleScreenshotAndPdf = async (
     ) {
       processingPromises.push(
         page
+        .addInitScript(() => {
+            const style = document.createElement('style');
+            style.textContent = `
+              [role="dialog"],
+              [role="alertdialog"],
+              .cookie-banner,
+              #cookie-banner,
+              #cookie-consent,
+              .cc-window,
+              .osano-cm-dialog,
+              .didomi-popup,
+              .gdpr,
+              .qc-cmp2-container,
+              .eu-cookie-compliance,
+              .cookie-consent-banner,
+              .cookies,
+              .popup,
+              .modal,
+              #consent-overlay,
+              .consent,
+              .fc-consent-root {
+                display: none !important;
+              }
+            `;
+            document.head.appendChild(style);
+          })
           .screenshot({ fullPage: true, type: "jpeg" })
           .then(async (screenshot) => {
             if (
